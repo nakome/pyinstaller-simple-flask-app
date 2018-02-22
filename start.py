@@ -43,7 +43,7 @@ def main():
     web = QWebView()
     web.resize(500, 380)
     web.setWindowTitle('Aplication')
-    web.setWindowIcon(QIcon('app/static/icon.ico'))
+    web.setWindowIcon(QIcon('app/static/icon.png'))
     
     web.settings().setAttribute(QWebSettings.LocalContentCanAccessRemoteUrls, True)
     web.settings().setAttribute(QtWebKit.QWebSettings.PluginsEnabled, True)

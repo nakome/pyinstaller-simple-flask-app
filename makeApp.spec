@@ -31,10 +31,20 @@ def collect_pkg_data(package, include_py_files=False, subdir=None):
 pkg_data = collect_pkg_data('app')  # <<< Put the name of your package here
 # <<< END ADDED PART    
 
+
 block_cipher = None
 
-a = Analysis(['start.py'],
-             pathex=['your/app/dir'], # example /home/jhon/Documents/simpleapp
+# App name
+AppName = 'MyApp'
+# App dir
+AppDir = '/home/moncho/Documentos/pyinstaller-simple-flask-app'
+# File to init app
+AppFileInit = 'start.py'
+# icon file 
+icoFile = 'app/static/icon.png'
+
+a = Analysis([AppFileInit],
+             pathex=[AppDir],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -44,8 +54,10 @@ a = Analysis(['start.py'],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
              cipher=block_cipher)
-pyz = PYZ(a.pure, a.zipped_data,
-             cipher=block_cipher)
+
+
+pyz = PYZ(a.pure, a.zipped_data,cipher=block_cipher)
+
 
 exe = EXE(pyz,
           a.scripts,
@@ -53,12 +65,20 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           pkg_data,
-          name='start',
           debug=False,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True )
+          console=True,
+          icon=icoFile,
+          name=AppName )
 
-
-
+coll = COLLECT(exe,
+               a.binaries,
+               a.zipfiles,
+               a.datas,
+               pkg_data,  # <<< Add here the collected files
+               strip=False,
+               upx=True,
+               icon=icoFile,
+               name=AppName)
