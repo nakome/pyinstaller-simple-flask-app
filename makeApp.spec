@@ -37,7 +37,7 @@ block_cipher = None
 # App name
 AppName = 'MyApp'
 # App dir
-AppDir = '/home/moncho/Documentos/pyinstaller-simple-flask-app'
+AppDir = '/home/moncho/Documentos/python-notes/pyinstaller-simple-flask-app'
 # File to init app
 AppFileInit = 'start.py'
 # icon file 

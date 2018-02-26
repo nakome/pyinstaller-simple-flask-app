@@ -1,4 +1,10 @@
+var _ = function(el){
+    return document.querySelector(el);
+}
+
+
 var _get = function (url, callback) {
+
     var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
     xhr.open('GET', url);
     xhr.onreadystatechange = function () {
@@ -26,6 +32,60 @@ var _post = function (url, data, callback) {
 }
 
 
+
+_('.s-theme').addEventListener('change',function(e){
+    e.preventDefault();
+    document.body.className = e.target.value;
+});
+
+
+
+
+_('.o-settings').addEventListener('click',function(e){
+    e.preventDefault();
+    _('.wrapper').className = 'wrapper tags-is-visible';
+});
+_('.o-addnew').addEventListener('click',function(e){
+    e.preventDefault();
+    _('.content').innerHTML = 'New Content';
+});
+
+_('.o-search').addEventListener('keydown',function(e){
+    console.dir(e.target.value);
+});
+
+_('.o-login').addEventListener('click',function(e){
+    e.preventDefault();
+    _('.content').innerHTML = 'login';
+});
+_('.o-info').addEventListener('click',function(e){
+    e.preventDefault();
+    _('.wrapper').className = 'wrapper info-is-visible';
+});
+_('.o-list').addEventListener('click',function(e){
+    e.preventDefault();
+    _('.wrapper').className = 'wrapper';
+});
+
+
+
+_('.c-close').addEventListener('click',function(e){
+    e.preventDefault();
+    _('.wrapper').className = 'wrapper';
+});
+_('.c-tags').addEventListener('click',function(e){
+    e.preventDefault();
+    _('.wrapper').className = 'wrapper';
+});
+
+_('.overlay').addEventListener('click',function(e){
+    e.preventDefault();
+    _('.wrapper').className = 'wrapper';
+});
+
+
+
+/*
 var settings = '',
     main = document.querySelector('main'),
     get_test = document.querySelector('.get_test'),
@@ -52,4 +112,4 @@ post_test.addEventListener('click', function (e) {
         main.innerHTML = r;
     });
 });
-
+*/

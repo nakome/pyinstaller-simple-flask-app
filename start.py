@@ -40,11 +40,21 @@ def main():
     app = QApplication(sys.argv)
 
     # Setup WebView (WebKit)
+    w = 1000
+    h = 600
     web = QWebView()
-    web.resize(500, 380)
+    web.resize(w, h)
+
+    web.setMinimumWidth(w)
+    web.setMinimumHeight(h)
+
+    web.setMaximumWidth(w)
+    web.setMaximumHeight(h)
+
+
     web.setWindowTitle('Aplication')
     web.setWindowIcon(QIcon('app/static/icon.png'))
-    
+
     web.settings().setAttribute(QWebSettings.LocalContentCanAccessRemoteUrls, True)
     web.settings().setAttribute(QtWebKit.QWebSettings.PluginsEnabled, True)
     web.settings().setAttribute(QtWebKit.QWebSettings.WebAttribute.DeveloperExtrasEnabled, True)

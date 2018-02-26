@@ -1,24 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
-    <script>
-        var _CONFIG_ = "{{url_for('static',filename='config.json')}}"
-    </script>
-</head>
-<body>
-    
-    <a href="#" class="post_test">Test ajax post</a> -
-    <a href="#" class="get_test">Test ajax get</a>
-    <br>
-    <main>
-        {{data.root}}
-    </main>
-    
-    <script src="{{url_for('static',filename='index.js')}}"></script>
-</body>
-</html>
+{% extends "layout/base.html" %}
+{% block title %} home {% endblock %}
+{% block style %}{% endblock %}
+
+{% block content %}
+<div class="boxes">
+    <div class="box">
+        <div class="card">
+            <div class="card-title">
+                <span class="pull-left">Notes</span>
+                <span class="pull-right">
+                    <button class="btn"><i class="icon icon-sync"></i></button>
+                </span>
+            </div>
+            <div class="card-body" contenteditable="true">
+                {{data.tmp_path}}
+                <br>
+                {{data.dir_path}}
+            </div>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="card">
+            <div class="card-title"><span class="pull-left">Ideas</span><span class="pull-right"><button class="btn"><i class="icon icon-sync"></i></button></span></div>
+            <div class="card-body" contenteditable="true">Vikingos 4x17&nbsp;</div>
+        </div>
+    </div>
+
+</div>
+<div class="boxes">
+        <div class="box">
+            <div class="card">
+                <div class="card-title"><span class="pull-left">Public snippets</span></div>
+                <div class="card-body no-padding">
+                    <a class="public_snippet" href="#" title="the second data">
+                        <div class="public_snippet_title">the second data</div>
+                        <div class="public_snippet_body"><b>Author: </b>tOxO Colect</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="card">
+                <div class="card-title"><span class="pull-left">Comming soon..</span></div>
+                <div class="card-body"></div>
+            </div>
+        </div>
+</div>
+{% endblock %}
+
+{% block info %} {% endblock %}
+
+{% block script %}{% endblock %}

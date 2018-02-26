@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} home {% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    {% block style %}{% endblock %}
+
+
+    <script>
+        var site_url = '{{ request.host_url }}';
+    </script>
+
+</head>
+<body>
+
+
+    <div class="wrapper" id="root">
+
+
+        <div class="nav-tags" id="nav-tags">
+            <div class="nav-header">
+                <nav>
+                    <span class="pull-left">
+                        <h3>Settings</h3>
+                    </span>
+                    <span class="pull-right">
+                        <button class="c-tags"><i class="icon icon-close"></i></button>
+                    </span>
+                </nav>
+            </div>
+            <div class="tags-content">
+
+                {% block settings %}
+                    <label>Language</label>
+                    <select name="language">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                    </select>
+
+                    <label>Theme Color</label>
+                    <select class="s-theme" name="language"><option>-- Select --</option>
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                    </select>
+                {% endblock %}
+
+            </div>
+        </div>
+
+        <main class="main">
+
+            <div id="sidebar" class="nav-list">
+                <div class="nav-header">
+                    <nav>
+                        <button class="o-settings"><i class="icon icon-tags"></i></button>
+                        <input  class="o-search" type="search" placeholder="Search">
+                        <button class="o-addnew"><i class="icon icon-plus"></i></button>
+                        <span class="pull-right">
+                            <button class="o-list" id="close"><i class="icon icon-close"></i></button>
+                        </span>
+                    </nav>
+                </div>
+                <ul class="nav-menu" id="list">
+
+                    {% block list %}
+                        <li>
+                            <span class="tag tag-Gitignore"></span>
+                            <a href="#" title="Gitignore">
+                                <div class="nav-menu-title">Bitbucked Git</div>
+                                <div class="nav-menu-desc">Añadir repositorio</div>
+                            </a>
+                        </li>
+                    {% endblock %}
+
+                </ul>
+            </div>
+
+            <div id="content" class="main-content">
+
+                <div class="nav-header">
+                    <nav>
+                        <span class="pull-left">
+                            <button class="o-list" title="Open list">
+                                <i class="icon icon-arrow"></i>
+                            </button>
+                        </span>
+                        <span class="pull-right">
+                            <button class="o-login" title="Logout"><i class="icon icon-lock"></i></button>
+                            <button class="o-info"> <i class="icon icon-info"></i></button>
+                        </span>
+                    </nav>
+                </div>
+
+                <div class="content">
+                    {% block content %}{% endblock %}
+                </div>
+
+                <div class="main-footer" id="footer"></div>
+            </div>
+
+            <div class="overlay"></div>
+        </main>
+
+        <div class="nav-info" id="nav-info">
+            <div class="nav-header">
+                <nav>
+                    <span class="pull-right">
+                        <button class="c-close"><i class="icon icon-close"></i></button>
+                    </span>
+                </nav>
+            </div>
+
+            <div class="info-content">
+                {% block info %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{{url_for('static',filename='index.js')}}"></script>
+    {% block script %}{% endblock %}
+</body>
+</html>
+
