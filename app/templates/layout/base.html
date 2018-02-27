@@ -57,24 +57,26 @@
                     <nav>
                         <button class="o-settings"><i class="icon icon-tags"></i></button>
                         <input  class="o-search" type="search" placeholder="Search">
-                        <button class="o-addnew"><i class="icon icon-plus"></i></button>
+                        <a href="/notes/new" class="o-new"><i class="icon icon-plus"></i></a>
                         <span class="pull-right">
                             <button class="o-list" id="close"><i class="icon icon-close"></i></button>
                         </span>
                     </nav>
                 </div>
                 <ul class="nav-menu" id="list">
-
                     {% block list %}
-                        <li>
-                            <span class="tag tag-Gitignore"></span>
-                            <a href="#" title="Gitignore">
-                                <div class="nav-menu-title">Bitbucked Git</div>
-                                <div class="nav-menu-desc">Añadir repositorio</div>
-                            </a>
-                        </li>
+                        {% if data %}
+                            {% for item in data %}
+                                <li class="{% if item.favorite %}isfavorite{% endif %}">
+                                    <span class="tag tag-{{item.category|lower}}"></span>
+                                    <a href="/notes/get/{{item.uid}}" title="{{item.title}}">
+                                        <div class="nav-menu-title">{{item.title}}</div>
+                                        <div class="nav-menu-desc">{{item.description}}</div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
                     {% endblock %}
-
                 </ul>
             </div>
 
@@ -86,6 +88,7 @@
                             <button class="o-list" title="Open list">
                                 <i class="icon icon-arrow"></i>
                             </button>
+                            {% block back %}{% endblock %}
                         </span>
                         <span class="pull-right">
                             <button class="o-login" title="Logout"><i class="icon icon-lock"></i></button>
@@ -98,7 +101,9 @@
                     {% block content %}{% endblock %}
                 </div>
 
-                <div class="main-footer" id="footer"></div>
+                <div class="main-footer" id="footer">
+                    {% block footer %}{% endblock %}
+                </div>
             </div>
 
             <div class="overlay"></div>
@@ -118,6 +123,14 @@
             </div>
         </div>
     </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notification">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
 
     <script src="{{url_for('static',filename='index.js')}}"></script>

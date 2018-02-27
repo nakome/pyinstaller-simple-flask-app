@@ -6,18 +6,19 @@ Simple desktop app made with flask ( only test on llinux )
 ### Requirements
 
 - Python
+- PySide
 - Flask
 - PyInstaller
 
 
-### Test 
+### Test
 
     python3 start.py
 
 ## spec settings
 
     # App name
-    AppName = 'MyApp'
+    AppName = 'MyApp' # if change app name be sure to change appName on __init__.py
     # App dir only try on linux :(
     AppDir = '/home/jhon/Documents/pyinstaller-simple-flask-app'
     # File to init app

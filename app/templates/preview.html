@@ -1,14 +1,45 @@
 {% extends "layout/base.html" %}
-{% block title %} home {% endblock %}
+{% block title %} Edit {% endblock %}
 {% block style %}{% endblock %}
 
-{% block content %}
-<div class="boxes">
-    <div class="box">
-
-    </div>
-</div>
+{% block back %}
+    <a href="/"><i class="icon icon-arrow-right"></i></a>
 {% endblock %}
+{% block content %}
+
+
+    <h3>{{note.title}}</h3>
+
+    <div class="pull-right">
+        <a href="/notes/edit/{{note.uid}}">Edit Note</a> &nbsp;-&nbsp;
+        <a href="/notes/delete/{{note.uid}}" onclick="return confirm('are you sure!)">Delete Note</a>
+    </div>
+
+
+    <p><em>{{note.description}}</em></p>
+    {% if note.category|lower == 'all' %}
+        {% highlight lineno='inline' %}{{note.content}}{% endhighlight %}
+    {% elif note.cateogry|lower == 'python' %}
+        {% highlight 'python', lineno='inline' %}{{note.content}}{% endhighlight %}
+    {% elif note.cateogry|lower == 'javascript' %}
+        {% highlight 'javascript', lineno='inline' %}{{note.content}}{% endhighlight %}
+    {% elif note.cateogry|lower == 'css' %}
+        {% highlight 'css', lineno='inline' %}{{note.content}}{% endhighlight %}
+    {% else %}
+        {% highlight 'python', lineno='inline' %}{{note.content}}{% endhighlight %}
+    {% endif %}
+{% endblock %}
+
+
+{% block footer %}
+    <span class="pull-left">
+        <strong>Category: </strong> {{note.category}}
+    </span>
+    <span class="pull-right">
+        <strong>Published On: </strong>{{note.date}}
+    </span>
+{% endblock %}
+
 
 {% block info %} {% endblock %}
 

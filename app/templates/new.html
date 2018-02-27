@@ -9,29 +9,29 @@
 {% endblock %}
 
 {% block back %}
-    <a href="/notes/get/{{note.uid}}"><i class="icon icon-arrow-right"></i></a>
+    <a href="/"><i class="icon icon-arrow-right"></i></a>
 {% endblock %}
 
 {% block content %}
 <form method="post">
     <div class="boxes">
         <div class="box">
-            <input type="text" name="title" value="{{note.title}}">
+            <input type="text" name="title">
         </div>
         <div class="box">
-            <input type="text" name="description" value="{{note.description}}">
+            <input type="text" name="description">
         </div>
     </div>
 
     <div class="boxes">
-        <textarea name="content" rows="10">{{note.content}}</textarea>
+        <textarea name="content" rows="10"></textarea>
         <label>
-            <input type="checkbox" name="favorite" {% if note.favorite %}checked{% endif%}>
+            <input type="checkbox" name="favorite">
             Favorite
         </label>
     </div>
     <div class="boxes">
-        <input type="submit" class="btn" name="save" value="Update note">
+        <input type="submit" class="btn" name="save" value="Save note">
     </div>
 </form>
 {% endblock %}

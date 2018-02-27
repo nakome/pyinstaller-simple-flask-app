@@ -45,10 +45,6 @@ _('.o-settings').addEventListener('click',function(e){
     e.preventDefault();
     _('.wrapper').className = 'wrapper tags-is-visible';
 });
-_('.o-addnew').addEventListener('click',function(e){
-    e.preventDefault();
-    _('.content').innerHTML = 'New Content';
-});
 
 _('.o-search').addEventListener('keydown',function(e){
     console.dir(e.target.value);
@@ -85,31 +81,3 @@ _('.overlay').addEventListener('click',function(e){
 
 
 
-/*
-var settings = '',
-    main = document.querySelector('main'),
-    get_test = document.querySelector('.get_test'),
-    post_test = document.querySelector('.post_test');
-
-
-get_test.addEventListener('click', function (e) {
-    e.preventDefault();
-    var settings = ''
-    _get(_CONFIG_, function (r) {
-        settings = JSON.parse(r);
-        main.innerHTML = settings.name;
-    });
-});
-
-
-
-post_test.addEventListener('click', function (e) {
-    e.preventDefault();
-    var data = {
-        title: 'Hello World'
-    };
-    _post('./test', JSON.stringify(data), function (r) {
-        main.innerHTML = r;
-    });
-});
-*/
