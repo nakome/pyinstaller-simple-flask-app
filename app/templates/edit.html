@@ -1,41 +1,76 @@
 {% extends "layout/base.html" %}
-{% block title %} home {% endblock %}
-{% block style %}
-    <style>
-        input[type=submit]{
-            margin-top: 15px;
-        }
-    </style>
-{% endblock %}
-
-{% block back %}
-    <a href="/notes/get/{{note.uid}}"><i class="icon icon-arrow-right"></i></a>
-{% endblock %}
+{% block title %} Edit Note {% endblock %}
+{% block style %}{% endblock %}
 
 {% block content %}
-<form method="post">
-    <div class="boxes">
-        <div class="box">
-            <input type="text" name="title" value="{{note.title}}">
+    <form method="POST" class="form well-sm">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" name="title" value="{{note.title}}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="title">Description</label>
+                    <input type="text" class="form-control" name="description" value="{{note.description}}">
+                </div>
+            </div>
         </div>
-        <div class="box">
-            <input type="text" name="description" value="{{note.description}}">
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                   <label>Category <small class="text-info text-right">{{note.category}}</small></label>
+                    <select name="category" class="form-control">
+                        <option value="{{note.category}}"> --- </option>
+                        <option value="Document">Documentation</option>
+                        <option value="Javascript">Javascript</option>
+                        <option value="Css">Css</option>
+                        <option value="Html">Html</option>
+                        <option value="Php">Php</option>
+                        <option value="C++">C++</option>
+                        <option value="Python">Python</option>
+                        <option value="Text">Text</option>
+                        <option value="Java">Java</option>
+                        <option value="Git">Git</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="checkbox">
+                    <label>
+                        <input name="favorite" type="checkbox" {% if note.favorite  %}checked{% endif %}>
+                        Favorite !
+                    </label>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="boxes">
-        <textarea name="content" rows="10">{{note.content}}</textarea>
-        <label>
-            <input type="checkbox" name="favorite" {% if note.favorite %}checked{% endif%}>
-            Favorite
-        </label>
-    </div>
-    <div class="boxes">
-        <input type="submit" class="btn" name="save" value="Update note">
-    </div>
-</form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <textarea id="editor" name="content" class="form-control" rows="10">{{note.content}}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" name="update" class="btn btn-primary" value="Update">
+            </div>
+        </div>
+    </form>
 {% endblock %}
 
-{% block info %} {% endblock %}
-
-{% block script %}{% endblock %}
+{% block script %}
+    <script>
+        simplemde = new SimpleMDE({
+            element: document.getElementById("editor"),
+            autofocus: false,
+            lineWrapping: true,
+            indentWithTabs: true,
+            tabSize: 4,
+            spellChecker: false,
+        });
+    </script>
+{% endblock %}

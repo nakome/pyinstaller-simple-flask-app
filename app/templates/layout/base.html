@@ -1,140 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %} home {% endblock %}</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
-    {% block style %}{% endblock %}
 
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/bootstrap.min.css')}}"> 
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/simplemde.min.css')}}"> 
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/font-awesome.css')}}"> 
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/style.css')}}"> 
+    {% block style %}{% endblock %}
 
     <script>
         var site_url = '{{ request.host_url }}';
+
     </script>
 
 </head>
+
 <body>
 
-
-    <div class="wrapper" id="root">
-
-
-        <div class="nav-tags" id="nav-tags">
-            <div class="nav-header">
-                <nav>
-                    <span class="pull-left">
-                        <h3>Settings</h3>
-                    </span>
-                    <span class="pull-right">
-                        <button class="c-tags"><i class="icon icon-close"></i></button>
-                    </span>
-                </nav>
-            </div>
-            <div class="tags-content">
-
-                {% block settings %}
-                    <label>Language</label>
-                    <select name="language">
-                        <option value="en">English</option>
-                        <option value="es">Spanish</option>
-                    </select>
-
-                    <label>Theme Color</label>
-                    <select class="s-theme" name="language"><option>-- Select --</option>
-                        <option value="dark">Dark</option>
-                        <option value="light">Light</option>
-                    </select>
-                {% endblock %}
-
-            </div>
-        </div>
-
-        <main class="main">
-
-            <div id="sidebar" class="nav-list">
-                <div class="nav-header">
-                    <nav>
-                        <button class="o-settings"><i class="icon icon-tags"></i></button>
-                        <input  class="o-search" type="search" placeholder="Search">
-                        <a href="/notes/new" class="o-new"><i class="icon icon-plus"></i></a>
-                        <span class="pull-right">
-                            <button class="o-list" id="close"><i class="icon icon-close"></i></button>
-                        </span>
-                    </nav>
+    <main class="wrapper">
+        <aside class="sidebar">
+            <header>
+                <form class="form-inline" id="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="name" placeholder="Search by title">
+                        <button class="btn btn-link"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </header>
+            <nav class="menu">
+                <ul class="list-group"></ul>
+            </nav>
+        </aside>
+        <section class="content">
+            <header>
+                <div class="pull-left">
+                    <a href="/" class="btn btn-link">
+                        <i class="fa fa-home"></i>
+                    </a>
+                    <a href="/notes/new" class="btn btn-link">
+                        <i class="fa fa-edit"></i>
+                    </a>
                 </div>
-                <ul class="nav-menu" id="list">
-                    {% block list %}
-                        {% if data %}
-                            {% for item in data %}
-                                <li class="{% if item.favorite %}isfavorite{% endif %}">
-                                    <span class="tag tag-{{item.category|lower}}"></span>
-                                    <a href="/notes/get/{{item.uid}}" title="{{item.title}}">
-                                        <div class="nav-menu-title">{{item.title}}</div>
-                                        <div class="nav-menu-desc">{{item.description}}</div>
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        {% endif %}
-                    {% endblock %}
-                </ul>
-            </div>
-
-            <div id="content" class="main-content">
-
-                <div class="nav-header">
-                    <nav>
-                        <span class="pull-left">
-                            <button class="o-list" title="Open list">
-                                <i class="icon icon-arrow"></i>
-                            </button>
-                            {% block back %}{% endblock %}
-                        </span>
-                        <span class="pull-right">
-                            <button class="o-login" title="Logout"><i class="icon icon-lock"></i></button>
-                            <button class="o-info"> <i class="icon icon-info"></i></button>
-                        </span>
-                    </nav>
+                <div class="pull-right">
+                    <a href="/" class="btn btn-link"><i class="fa fa-download"></i></a>
+                    <a href="/" class="btn btn-link"><i class="fa fa-user"></i></a>
+                    <a href="/" class="btn btn-dark"><i class="fa fa-gear"></i></a>
                 </div>
-
-                <div class="content">
-                    {% block content %}{% endblock %}
-                </div>
-
-                <div class="main-footer" id="footer">
-                    {% block footer %}{% endblock %}
-                </div>
-            </div>
-
-            <div class="overlay"></div>
-        </main>
-
-        <div class="nav-info" id="nav-info">
-            <div class="nav-header">
-                <nav>
-                    <span class="pull-right">
-                        <button class="c-close"><i class="icon icon-close"></i></button>
-                    </span>
-                </nav>
-            </div>
-
-            <div class="info-content">
-                {% block info %}{% endblock %}
-            </div>
-        </div>
-    </div>
-
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="notification">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
-
-    <script src="{{url_for('static',filename='index.js')}}"></script>
+            </header>
+            <article class="container">
+                {% block content %}{% endblock %}
+            </article>
+        </section>
+    </main>
+    
+    <script src="{{url_for('static',filename='assets/js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/simplemde.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/index.js')}}"></script>
     {% block script %}{% endblock %}
 </body>
-</html>
 
+</html>

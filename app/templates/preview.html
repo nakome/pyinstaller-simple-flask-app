@@ -1,46 +1,22 @@
 {% extends "layout/base.html" %}
-{% block title %} Edit {% endblock %}
-{% block style %}{% endblock %}
-
-{% block back %}
-    <a href="/"><i class="icon icon-arrow-right"></i></a>
-{% endblock %}
+{% block title %} home {% endblock %}
+{% block style %}{% endblock %}          
 {% block content %}
-
-
-    <h3>{{note.title}}</h3>
-
-    <div class="pull-right">
-        <a href="/notes/edit/{{note.uid}}">Edit Note</a> &nbsp;-&nbsp;
-        <a href="/notes/delete/{{note.uid}}" onclick="return confirm('are you sure!)">Delete Note</a>
+    <div class="pull-right" style="margin-top:1em">
+        <a class="btn btn-primary" href="/notes/edit/{{note.uid}}">
+            <i class="fa fa-edit"></i>
+        </a>
+        <a class="btn btn-danger" href="/notes/delete/{{note.uid}}">
+            <i class="fa fa-trash"></i>
+        </a>
     </div>
-
-
+    <h3>{{note.title}}</h3>
+    <div class="pull-right">
+        <small class="text-danger">{{note.category}}</small>
+        <small class="text-info">{{note.date}}</small>
+    </div>
     <p><em>{{note.description}}</em></p>
-    {% if note.category|lower == 'all' %}
-        {% highlight lineno='inline' %}{{note.content}}{% endhighlight %}
-    {% elif note.cateogry|lower == 'python' %}
-        {% highlight 'python', lineno='inline' %}{{note.content}}{% endhighlight %}
-    {% elif note.cateogry|lower == 'javascript' %}
-        {% highlight 'javascript', lineno='inline' %}{{note.content}}{% endhighlight %}
-    {% elif note.cateogry|lower == 'css' %}
-        {% highlight 'css', lineno='inline' %}{{note.content}}{% endhighlight %}
-    {% else %}
-        {% highlight 'python', lineno='inline' %}{{note.content}}{% endhighlight %}
-    {% endif %}
+    {{note.content|markdown}}
 {% endblock %}
-
-
-{% block footer %}
-    <span class="pull-left">
-        <strong>Category: </strong> {{note.category}}
-    </span>
-    <span class="pull-right">
-        <strong>Published On: </strong>{{note.date}}
-    </span>
-{% endblock %}
-
-
-{% block info %} {% endblock %}
 
 {% block script %}{% endblock %}

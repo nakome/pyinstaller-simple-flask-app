@@ -4,6 +4,7 @@ from flask import url_for
 from flask import request
 from flask import render_template
 
+from flaskext.markdown import Markdown
 
 import os
 import json
@@ -59,6 +60,7 @@ appName = 'MyApp'
 # init app
 app = MyFlask(__name__)
 
+Markdown(app)
 
 app.jinja_env.filters['datetime'] = formatDate
 
@@ -122,14 +124,35 @@ def note(uid):
 
 
 """
-    Edit,add and delete note
+    Ajax functions
 """
-@app.route('/notes/edit/<int:uid>')
-def edit(uid):
+@app.route('/notes/get/all',methods=['GET'])
+def all_notes():
     # get all notes
     notes = Notes.get_all(work_path,1)
+    return notes
+
+@app.route('/notes/search/<name>',methods=['GET'])
+def search_notes(name):
+    # get all notes
+    notes = Notes.search(work_path,name,1)
+    return notes
+
+
+
+
+
+"""
+    Edit,add and delete note
+"""
+@app.route('/notes/edit/<int:uid>',methods=['GET','POST'])
+def edit(uid):
+    
+    if request.method == 'POST':
+        return Notes.update_note(work_path,uid);
+           
     note = Notes.get_one(work_path,uid)
-    return render_template('edit.html',data=notes,note=note,config=config)
+    return render_template('edit.html',note=note,config=config)
 @app.route('/notes/new')
 def new():
     # get all notes
