@@ -1,4 +1,4 @@
-# pyinstaller-simple-flask-app
+## Pynotes
 
 Simple desktop app made with flask
 
@@ -10,7 +10,7 @@ Simple desktop app made with flask
 - PySide
 - Flask
 - PyInstaller
-- PyQt5 
+- PyQt5
 
 ### Test
 
@@ -23,4 +23,4 @@ Simple desktop app made with flask
 	pyinstaller -w -F --icon="pynotes.ico" --add-data "static;static" --add-data "templates;templates" pynotes.py
 
 
-Copy static & templates folder on dist dir and thats it.
+Copy static & templates folder on dist directory and thats it.
