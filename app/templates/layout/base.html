@@ -7,15 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %} home {% endblock %}</title>
 
-    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/bootstrap.min.css')}}"> 
-    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/simplemde.min.css')}}"> 
-    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/font-awesome.css')}}"> 
-    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/style.css')}}"> 
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/style.css')}}">
     {% block style %}{% endblock %}
 
     <script>
         var site_url = '{{ request.host_url }}';
-
     </script>
 
 </head>
@@ -39,17 +35,11 @@
         <section class="content">
             <header>
                 <div class="pull-left">
-                    <a href="/" class="btn btn-link">
-                        <i class="fa fa-home"></i>
-                    </a>
-                    <a href="/notes/new" class="btn btn-link">
-                        <i class="fa fa-edit"></i>
-                    </a>
+                    <a href="/" class="btn btn-link"><i class="fa fa-home"></i> Home</a>
                 </div>
                 <div class="pull-right">
-                    <a href="/" class="btn btn-link"><i class="fa fa-download"></i></a>
-                    <a href="/" class="btn btn-link"><i class="fa fa-user"></i></a>
-                    <a href="/" class="btn btn-dark"><i class="fa fa-gear"></i></a>
+                    <a href="/notes/new" class="btn btn-link"><i class="fa fa-edit"></i> New Note</a>
+                    <a href="/settings" class="btn btn-link"><i class="fa fa-gear"></i> Settings</a>
                 </div>
             </header>
             <article class="container">
@@ -57,10 +47,15 @@
             </article>
         </section>
     </main>
-    
-    <script src="{{url_for('static',filename='assets/js/jquery.min.js')}}"></script>
-    <script src="{{url_for('static',filename='assets/js/bootstrap.min.js')}}"></script>
-    <script src="{{url_for('static',filename='assets/js/simplemde.min.js')}}"></script>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notification">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <script src="{{url_for('static',filename='assets/js/index.js')}}"></script>
     {% block script %}{% endblock %}
 </body>

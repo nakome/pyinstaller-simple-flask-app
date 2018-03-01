@@ -1,8 +1,10 @@
 from flask import Flask
+from flask import flash
 from flask import redirect
 from flask import url_for
 from flask import request
 from flask import render_template
+from flask import Markup
 
 from flaskext.markdown import Markdown
 
@@ -12,6 +14,8 @@ import sys
 import time
 import shutil
 import datetime
+from math import ceil
+import sqlite3
 
 import jinja2_highlight
 
@@ -60,13 +64,154 @@ appName = 'MyApp'
 # init app
 app = MyFlask(__name__)
 
+app.secret_key = 'b2bc79f021f33610d6211f259f3ee09664bc5a0d971a183a'
+
 Markdown(app)
 
 app.jinja_env.filters['datetime'] = formatDate
 
 
-from app.controllers.notes import Notes
-from app.controllers.media import Media
+
+
+class Notes:
+
+    def update_note(path,uid):
+        try:
+            title = request.form.get('title')
+            desc = request.form.get('description')
+            category = request.form.get('category')
+            content = request.form.get('content')
+            favorite = request.form.get('favorite')
+
+            with sqlite3.connect(path+'/storage.sqlite') as db:
+                cur = db.cursor()
+                sql = """UPDATE notes
+                        SET title = ?,
+                            desc = ?,
+                            category = ?,
+                            content = ?,
+                            isfavorite = ?
+                        WHERE uid = ?"""
+                cur.execute(sql,(title,desc,category,content,favorite,uid))
+                db.commit()
+                flash('Success the note has been updated !')
+        except:
+            db.rollback()
+            flash('Error failed on update note! ')
+        finally:
+            db.close()
+            return redirect('/notes/get/'+str(uid))
+
+
+    def save_note(path):
+        try:
+            title = request.form.get('title')
+            desc = request.form.get('description')
+            category = request.form.get('category')
+            content = request.form.get('content')
+            isfavorite = request.form.get('favorite')
+
+            with sqlite3.connect(path+'/storage.sqlite') as db:
+                cur = db.cursor()
+                sql = """INSERT INTO notes
+                    (title,desc,category,content,isfavorite)
+                    VALUES (?,?,?,?,?)"""
+
+                cur.execute(sql,(title,desc,category,content,isfavorite))
+                db.commit()
+                flash('Success the note has been added')
+        except:
+            db.rollback()
+            flash('Error in insert operation')
+        finally:
+            db.close()
+            return redirect('/')
+
+
+    def get_all(path,offset):
+        per_page = 16
+        db = sqlite3.connect(path+'/storage.sqlite')
+        db.row_factory = sqlite3.Row # para poder usar dot notacion
+        cur = db.cursor()
+        cur.execute('SELECT count(*) FROM notes')
+        total = cur.fetchone()[0]
+        total_pages = int(ceil(total / float(per_page)))
+        sql = 'SELECT uid,title,desc,category FROM notes ORDER BY date LIMIT {}, {}'
+        limit = int(ceil((float(per_page) * offset)) - float(per_page))
+        cur.execute(sql.format(limit, per_page))
+        rows = cur.fetchall()
+        db.close()
+        data = []
+        for item in rows:
+            data.append({
+                'uid': item[0],
+                'title': item[1],
+                'desc': item[2],
+                'category':item[3]
+            })
+        return json.dumps(data)
+
+    def search(path,name,offset):
+        per_page = 16
+        db = sqlite3.connect(path+'/storage.sqlite')
+        db.row_factory = sqlite3.Row # para poder usar dot notacion
+        cur = db.cursor()
+        cur.execute('SELECT count(*) FROM notes')
+        total = cur.fetchone()[0]
+        total_pages = int(ceil(total / float(per_page)))
+        sql = "SELECT uid,title,desc,category FROM notes WHERE title LIKE '%{}%' ORDER BY date LIMIT {}, {}"
+        limit = int(ceil((float(per_page) * offset)) - float(per_page))
+        cur.execute(sql.format(name,limit, per_page))
+        rows = cur.fetchall()
+        db.close()
+        data = []
+        for item in rows:
+            data.append({
+                'uid': item[0],
+                'title': item[1],
+                'desc': item[2],
+                'category':item[3]
+            })
+        return json.dumps(data)
+
+    def get_one(path,uid):
+        uid = (uid,)
+        db = sqlite3.connect(path+'/storage.sqlite')
+        cur = db.cursor()
+        cur.execute('SELECT * FROM notes WHERE uid=?',uid)
+        item = cur.fetchone()
+        db.close()
+        data = {
+            'uid': item[0],
+            'title': item[1],
+            'description': item[2],
+            'date': item[3],
+            'category': item[4],
+            'content': Markup(item[5]),
+            'favorite': item[6]
+        }
+        return data
+
+
+    '''
+        Delete snippet
+    '''
+    def delete(path,uid):
+        t = (uid,)
+        try:
+            with sqlite3.connect(path+'/storage.sqlite') as db:
+                cur = db.cursor()
+                cur.execute("DELETE FROM notes WHERE uid=?",t)
+                db.commit()
+                flash('Success the note has been deleted!')
+        except:
+            db.rollback()
+            flash('Error in delete operation')
+        finally:
+            db.close()
+            return redirect('/')
+
+
 
 
 """
@@ -110,16 +255,16 @@ else:
 @app.route('/')
 @app.route('/index')
 def init(offset = 1):
-    # get all notes
-    notes = Notes.get_all(work_path,offset)
-    return render_template('index.html',data=notes,config=config)
+    return render_template('index.html',config=config)
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html',config=config)
 
 @app.route('/notes/get/<int:uid>')
 def note(uid):
-    # get all notes
-    notes = Notes.get_all(work_path,1)
     note = Notes.get_one(work_path,uid)
-    return render_template('preview.html',data=notes,note=note,config=config)
+    return render_template('preview.html',note=note,config=config)
 
 
 
@@ -147,66 +292,26 @@ def search_notes(name):
 """
 @app.route('/notes/edit/<int:uid>',methods=['GET','POST'])
 def edit(uid):
-    
+
     if request.method == 'POST':
         return Notes.update_note(work_path,uid);
-           
+
     note = Notes.get_one(work_path,uid)
     return render_template('edit.html',note=note,config=config)
-@app.route('/notes/new')
+
+@app.route('/notes/new', methods=['GET', 'POST'])
 def new():
-    # get all notes
-    notes = Notes.get_all(work_path,1)
-    return render_template('new.html',data=notes,config=config)
+
+    if request.method == 'POST':
+        return Notes.save_note(work_path);
+
+    return render_template('new.html',config=config)
+
 
 @app.route('/notes/delete/<int:uid>')
 def delete(uid):
-    return 'dalete note',uid
+    return Notes.delete(work_path,uid);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-    Login page
-'''
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-
-    # use config vats
-    username = config.username
-    password = config.password
-
-    msg = ''
-    if request.method == 'POST':
-        if request.form['username'] == username and request.form['password'] == password:
-            session['username'] = request.form['username']
-            session['password'] = request.form['password']
-            return redirect(url_for('index'))
-        else :
-            return redirect(url_for('login'))
-    return render_template('views/login.html',msg=msg)
-
-
-
-'''
-    Logout page
-'''
-@app.route('/logout')
-def logout():
-    # remove the username from the session if it's there
-    session.pop('username', None)
-    return redirect(url_for('index'))
 
 
 @app.errorhandler(404)

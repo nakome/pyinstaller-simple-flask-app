@@ -1,7 +1,9 @@
 {% extends "layout/base.html" %}
 {% block title %} home {% endblock %}
-{% block style %}{% endblock %}          
+{% block style %}{% endblock %}
+
 {% block content %}
+
     <div class="pull-right" style="margin-top:1em">
         <a class="btn btn-primary" href="/notes/edit/{{note.uid}}">
             <i class="fa fa-edit"></i>
@@ -17,6 +19,7 @@
     </div>
     <p><em>{{note.description}}</em></p>
     {{note.content|markdown}}
+
 {% endblock %}
 
 {% block script %}{% endblock %}

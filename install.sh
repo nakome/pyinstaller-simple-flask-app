@@ -1,3 +1,3 @@
-python3 -m PyInstaller -F makeApp.spec
+python3 -O -m PyInstaller -w -F makeApp.spec
 
 rm -rf build

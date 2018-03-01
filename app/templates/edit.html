@@ -1,6 +1,12 @@
 {% extends "layout/base.html" %}
 {% block title %} Edit Note {% endblock %}
-{% block style %}{% endblock %}
+{% block style %}
+    <style>
+        form{
+            margin-top:2em;
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
     <form method="POST" class="form well-sm">
@@ -18,7 +24,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">

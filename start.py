@@ -53,7 +53,7 @@ def main():
 
 
     web.setWindowTitle('Aplication')
-    web.setWindowIcon(QIcon('app/static/icon.png'))
+    web.setWindowIcon(QIcon('app/static/assets/img/icon.png'))
 
     web.settings().setAttribute(QWebSettings.LocalContentCanAccessRemoteUrls, True)
     web.settings().setAttribute(QtWebKit.QWebSettings.PluginsEnabled, True)

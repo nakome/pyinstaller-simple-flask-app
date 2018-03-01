@@ -1,11 +1,19 @@
 {% extends "layout/base.html" %}
 {% block title %} home {% endblock %}
 {% block style %}{% endblock %}
-
 {% block content %}
-   <h3>Example title</h3>
-   <p><em>This is a simple description</em></p>
-   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, eos itaque quae hic optio, enim numquam earum ducimus adipisci qui exercitationem unde ipsa ea quidem, neque amet quia voluptatem nihil.</p>
-{% endblock %}
+    <div class="row well-sm">
+        <div class="col-md-12">
+            <div class="todo">
+              <div class="header">
+                <h3>Todo</h3>
+                <input type="text" id="idea" placeholder="Title...">
+                <span  class="addBtn">Add</span>
+              </div>
 
+              <ul class="todo-list"></ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block script %}{% endblock %}

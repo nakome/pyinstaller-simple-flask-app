@@ -1,6 +1,6 @@
 # -*- mode: python -*-
 
-# <<< START ADDED PART    
+# <<< START ADDED PART
 from PyInstaller.building.build_main import Analysis, PYZ, EXE, COLLECT, BUNDLE, TOC
 
 
@@ -29,7 +29,7 @@ def collect_pkg_data(package, include_py_files=False, subdir=None):
     return data_toc
 
 pkg_data = collect_pkg_data('app')  # <<< Put the name of your package here
-# <<< END ADDED PART    
+# <<< END ADDED PART
 
 
 block_cipher = None
@@ -40,8 +40,8 @@ AppName = 'MyApp'
 AppDir = '/home/moncho/Documentos/python-notes/pyinstaller-simple-flask-app'
 # File to init app
 AppFileInit = 'start.py'
-# icon file 
-icoFile = 'app/static/icon.png'
+# icon file
+icoFile = 'app/static/assets/img/icon.png'
 
 a = Analysis([AppFileInit],
              pathex=[AppDir],
