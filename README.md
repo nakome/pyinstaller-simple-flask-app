@@ -1,7 +1,8 @@
 # pyinstaller-simple-flask-app
 
-Simple desktop app made with flask ( only test on llinux )
+Simple desktop app made with flask
 
+> This is only for experiment propouses.
 
 ### Requirements
 
@@ -9,24 +10,17 @@ Simple desktop app made with flask ( only test on llinux )
 - PySide
 - Flask
 - PyInstaller
-
+- PyQt5 
 
 ### Test
 
-    python3 start.py
+    python pynotes.py
 
-## spec settings
-
-    # App name
-    AppName = 'MyApp' # if change app name be sure to change appName on __init__.py
-    # App dir only try on linux :(
-    AppDir = '/home/jhon/Documents/pyinstaller-simple-flask-app'
-    # File to init app
-    AppFileInit = 'start.py'
-    # icon file bug :(
-    icoFile = 'app/static/icon.png'
 
 ### build
-    pyinstaller makeApp.spec
+
+	
+	pyinstaller -w -F --icon="pynotes.ico" --add-data "static;static" --add-data "templates;templates" pynotes.py
 
 
+Copy static & templates folder on dist dir and thats it.

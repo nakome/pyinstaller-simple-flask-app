@@ -19,6 +19,7 @@ import sqlite3
 
 import jinja2_highlight
 
+from gui import init_gui
 
 
 '''
@@ -320,8 +321,8 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    #app.run(debug=True)
+     init_gui(app)
 
 
 
